@@ -1,12 +1,14 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
-const PDFSchema = new mongoose.Schema(
+const pdfSchema = new mongoose.Schema(
   {
-    pdf: String,
-    title: String,
+    title: { type: String, required: true },
+    pdf: { type: Buffer, required: true }, // Store the PDF file as a Buffer
+    contentType: { type: String }, // Store content type
   },
   { collection: "PDFDetails" }
 );
 
-const PDFDetails = mongoose.model("PDFDetails", PDFSchema);
-export default PDFDetails;
+const PDF = mongoose.model("PDFDetails", pdfSchema);
+
+export default PDF;

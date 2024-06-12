@@ -64,7 +64,7 @@ app.get("/", (req, res) => {
 
 /*routes */
 authRoutes(app);
-// fileRoutes(app);
+fileRoutes(app);
 
 // Set port, listen for requests
 const PORT = config.serverPort || 5000;
