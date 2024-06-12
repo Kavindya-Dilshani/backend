@@ -55,6 +55,77 @@ const uploadFile = async (req, res) => {
   }
 };
 
-const fileController = { uploadFile };
+/**
+ * This function use to get all uploaded pdf files of current user
+ * @param {Http Request} req
+ * @param {Http Response} res
+ * @param {NextFunction} next
+ * @returns
+ */
+const getFiles = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    // Check user ID
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    // Check User
+    const user = await User.findOne({ _id: userId });
+
+    if (user) {
+      const pdfDocuments = await PDF.find({ userId }, "title"); // Fetch all PDF documents
+
+      if (!pdfDocuments || pdfDocuments.length === 0) {
+        return res.status(404).json({ error: "No PDF files found" });
+      }
+
+      // Create response
+      res.status(200).json({
+        status: "success",
+        files: pdfDocuments,
+      });
+    } else {
+      return res.status(400).json({ error: "User not found!" });
+    }
+  } catch (err) {
+    console.error("Error retrieving PDFs:", err);
+    res.status(500).json({ error: "Failed to retrieve PDF files" });
+  }
+};
+
+/**
+ * This function use to get the selected pdf file from database
+ * @param {Http Request} req
+ * @param {Http Response} res
+ * @param {NextFunction} next
+ * @returns
+ */
+const getFile = async (req, res) => {
+  try {
+    const documentId = req.query.documentId;
+    // Check document ID
+    if (!documentId) {
+      return res.status(400).json({ error: "Document ID is required" });
+    }
+
+    // Fetch selected PDF file
+    const pdfDocument = await PDF.findOne({ _id: documentId });
+
+    if (!pdfDocument) {
+      return res.status(404).json({ error: "No PDF files found" });
+    }
+
+    // Create response
+    res.status(200).json({
+      status: "success",
+      file: pdfDocument,
+    });
+  } catch (err) {
+    console.error("Error retrieving PDFs:", err);
+    res.status(500).json({ error: "Failed to retrieve PDF files" });
+  }
+};
+
+const fileController = { uploadFile, getFiles, getFile };
 
 export default fileController;

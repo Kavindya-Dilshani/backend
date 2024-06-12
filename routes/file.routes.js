@@ -1,8 +1,6 @@
 import multer from "multer";
 import fileController from "../controllers/file.controller.js";
 
-// app.use("/files", express.static("files"));
-
 export default function fileRoutes(app) {
   // Configure multer to handle multipart/form-data
   const storage = multer.memoryStorage();
@@ -14,14 +12,8 @@ export default function fileRoutes(app) {
     upload.single("file"),
     fileController.uploadFile
   );
-
-  // app.get("/get-files", async (req, res) => {
-  //   try {
-  //     PDFSchema.find({}).then((data) => {
-  //       res.send({ status: "SUCCESS" });
-  //     });
-  //   } catch (error) {
-  //     res.json({ status: error });
-  //   }
-  // });
+  // Get files
+  app.get("/api/files/get-files", [], fileController.getFiles);
+  // Get file
+  app.get("/api/files/get-file", [], fileController.getFile);
 }
