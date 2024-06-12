@@ -1,4 +1,5 @@
 import PDF from "../models/PDF.js";
+import User from "../models/User.js";
 
 /**
  * This function use to save uploaded pdf file in database
@@ -14,26 +15,39 @@ const uploadFile = async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    // Extract title from the request body
-    const { title } = req.body;
-    // Check if title are provided
-    if (!title) {
-      return res.status(400).json({ error: "File title  is missing" });
+    // Extract title userId from the request body
+    const { title, userId } = req.body;
+
+    // Check user ID
+    if (!userId) {
+      return res.status(400).json({ error: "User ID  is missing" });
     }
+    // Check User
+    const user = await User.findOne({ _id: userId });
 
-    // Extract pdf file details from the request body
-    const { originalname, buffer, mimetype } = req.file;
-    // Create PDF object
-    const newPDF = new PDF({
-      title,
-      pdf: buffer,
-      contentType: mimetype,
-    });
-    // Save pdf document in the PDFDetails collection
-    await newPDF.save();
+    if (user) {
+      // Check if title are provided
+      if (!title) {
+        return res.status(400).json({ error: "File title  is missing" });
+      }
 
-    // Send success response
-    res.status(201).json({ message: "PDF file uploaded successfully!" });
+      // Extract pdf file details from the request body
+      const { originalname, buffer, mimetype } = req.file;
+      // Create PDF object
+      const newPDF = new PDF({
+        title,
+        pdf: buffer,
+        contentType: mimetype,
+        userId,
+      });
+      // Save pdf document in the PDFDetails collection
+      await newPDF.save();
+
+      // Send success response
+      res.status(201).json({ message: "PDF file uploaded successfully!" });
+    } else {
+      return res.status(400).json({ error: "User not found!" });
+    }
   } catch (error) {
     // Handle errors
     console.error("Error uploading file:", error);
