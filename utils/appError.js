@@ -1,13 +1,17 @@
-
-// appError.js
+/**
+ * This function use to create error
+ * @param {Message} message 
+ * @param {Status code} statusCode 
+ * @returns 
+ */
 const createError = (message, statusCode) => {
-    const error = new Error(message);
-    error.statusCode = statusCode;
-    error.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  error.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
 
-    Error.captureStackTrace(error, createError);
+  Error.captureStackTrace(error, createError);
 
-    return error;
+  return error;
 };
 
 export default createError;
