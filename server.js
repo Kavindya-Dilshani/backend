@@ -3,17 +3,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import winston from "winston";
 import morgan from "morgan";
+import config from "./config/config.json" assert { type: "json" };
 import authRoutes from "./routes/auth.routes.js";
 import fileRoutes from "./routes/file.routes.js";
 
 // Initialize Express application
 const app = express();
-
-// Server configurations
-const config = {
-  serverPort: "5000",
-  frontEndUrl: "http://localhost:3000",
-};
 
 // CORS options
 const corsOptions = {
