@@ -2,6 +2,6 @@
   "serverPort": "5000",
   "frontEndUrl": "http://localhost:3000",
   "auth": {
-    "jwtSecretKey": "jwt@&ueweH#@m#45djs"
+    "jwtSecretKey": "ADD_YOUR_JWT_SECRET_KEY"
   }
 }
