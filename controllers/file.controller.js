@@ -109,20 +109,24 @@ const getFile = async (req, res) => {
     }
 
     // Fetch selected PDF file
-    const pdfDocument = await PDF.findOne({ _id: documentId });
+    const pdfDocument = await PDF.findById(documentId);
 
     if (!pdfDocument) {
       return res.status(404).json({ error: "No PDF files found" });
     }
 
-    // Create response
-    res.status(200).json({
-      status: "success",
-      file: pdfDocument,
-    });
+    // Set the Content-Type header
+    res.setHeader("Content-Type", pdfDocument.contentType);
+    // Set Content-Disposition header to inline to display in the browser
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="${pdfDocument.title}.pdf"`
+    );
+    // Send the PDF buffer as the response
+    res.send(pdfDocument.pdf);
   } catch (err) {
     console.error("Error retrieving PDFs:", err);
-    res.status(500).json({ error: "Failed to retrieve PDF files" });
+    res.status(500).json({ error: "Failed to retrieve PDF file" });
   }
 };
 
