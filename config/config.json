@@ -1,6 +1,7 @@
 {
   "serverPort": "5000",
   "frontEndUrl": "http://localhost:3000",
+  "databaseUrl": "mongodb://127.0.0.1:27017/PDFHubDB",
   "auth": {
     "jwtSecretKey": "ADD_YOUR_JWT_SECRET_KEY"
   }

@@ -54,7 +54,7 @@ app.use(
 
 /** mongoDb connection */
 mongoose
-  .connect("mongodb://127.0.0.1:27017/PDFHubDB")
+  .connect(config.databaseUrl)
   .then(() => console.log("connected to MongoDB"))
   .catch((error) => console.log("failed to connect MongoDB:", error));
 
