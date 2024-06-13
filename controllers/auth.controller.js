@@ -41,7 +41,7 @@ const signUp = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "User registered successfully",
-      token,
+      token: `Bearer ${token}`,
       user: {
         userId: newUser._id,
         name: newUser.name,
@@ -83,7 +83,7 @@ const login = async (req, res, next) => {
     // Create response
     res.status(200).json({
       status: "success",
-      token,
+      token: `Bearer ${token}`,
       message: "User Logged successfully",
       user: {
         userId: user._id,
