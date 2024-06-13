@@ -14,6 +14,7 @@ const app = express();
 const corsOptions = {
   origin: [config.frontEndUrl],
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
+  exposedHeaders: ['Content-Disposition'],
   credentials: true,
 };
 
