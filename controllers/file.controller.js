@@ -76,7 +76,7 @@ const getFiles = async (req, res) => {
       const pdfDocuments = await PDF.find({ userId }, "title"); // Fetch all PDF documents
 
       if (!pdfDocuments || pdfDocuments.length === 0) {
-        return res.status(404).json({ error: "No PDF files found" });
+        return res.status(200).json({ error: "No PDF files found" });
       }
 
       // Create response
